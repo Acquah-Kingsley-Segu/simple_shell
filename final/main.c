@@ -5,19 +5,22 @@
 #include <sys/wait.h>
 #include "shell.h"
 
-int main(int argc, char *argv[], char *envp[])
+int main(void)
 {
+	extern char **environ;
 	char *line;
 	size_t bufsize = 1024, line_len = 0;
+	char *PROMT_STR;
 	ssize_t nread;
 	int wait_status;
+	int PROMPT_LEN;
 	pid_t child_proc;
 	char **ag;
 	int exit_status;
 	line = (char *)malloc(bufsize * sizeof(char));
 
-	char *PROMT_STR = "$ ";
-	int PROMPT_LEN = 2;
+	PROMT_STR = "$ ";
+	PROMPT_LEN = 2;
 	/* display prompt */
 	while (1)
 	{
@@ -39,7 +42,7 @@ int main(int argc, char *argv[], char *envp[])
 					continue;
 				}
 
-				exit_status = execute_command(ag[0], ag, envp);
+				exit_status = execute_command(ag[0], ag, environ);
 			}
 			else
 			{

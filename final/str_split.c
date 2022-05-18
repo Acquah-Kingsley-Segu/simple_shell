@@ -5,9 +5,10 @@
 char **str_split(char *str, char const *delim)
 {
 	char **str_arr;
-	str_arr = malloc(sizeof(char *) * 1024);
 	char *token;
 	int i;
+	str_arr = malloc(sizeof(char *) * 1024);
+	token = malloc(sizeof(char) * 1024);
 	token = strtok(str, delim);
 	i = 0;
 	while (token != NULL)

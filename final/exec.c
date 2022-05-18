@@ -20,9 +20,6 @@ int execute_command(char *cmd, char **av, char **env)
 			perror("Error");
 			return (EXIT_FAILURE);
 		}
-		else
-		{
-			return (EXIT_SUCCESS);
-		}
 	}
+	return (EXIT_SUCCESS);
 }
