@@ -1,0 +1,57 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include "shell.h"
+
+int main(int argc, char *argv[], char *envp[])
+{
+	char *line;
+	size_t bufsize = 1024, line_len = 0;
+	ssize_t nread;
+	int wait_status;
+	pid_t child_proc;
+	char **ag;
+	int exit_status;
+	line = (char *)malloc(bufsize * sizeof(char));
+
+	char *PROMT_STR = "$ ";
+	int PROMPT_LEN = 2;
+	/* display prompt */
+	while (1)
+	{
+		write(STDOUT_FILENO, PROMT_STR, PROMPT_LEN);
+		nread = getline(&line, &line_len, stdin);
+		if (nread != -1)
+		{
+			/*prompt reset len to 0 for next iteration*/
+			line_len = 0;
+
+			/* create child process to handle command */
+			child_proc = fork();
+			if (child_proc == 0)
+			{
+				ag = str_split(line, " \t\n\r");
+				if (ag[0] == NULL)
+				{
+					write(STDOUT_FILENO, "\r", 1);
+					continue;
+				}
+
+				exit_status = execute_command(ag[0], ag, envp);
+			}
+			else
+			{
+				/* wait for child process to handle command */
+				wait(&wait_status);
+			}
+		}
+		else
+		{
+			free(ag);
+			break;
+		}
+	}
+	return (exit_status);
+}
