@@ -4,6 +4,12 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+/**
+ * main - example of fork and wait calls
+ *
+ * Return: 0
+ */
+
 int main(void)
 {
 	pid_t child_pid;
