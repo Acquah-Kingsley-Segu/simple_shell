@@ -5,7 +5,7 @@
 
 char* shell_prompt(char *buffer, size_t buf_size, ssize_t *characters)
 {
-	size_t write_stat;
+	int write_stat;
 	char *_exit = "exit";
 	int stat;
 	int i = 0;
@@ -22,6 +22,7 @@ char* shell_prompt(char *buffer, size_t buf_size, ssize_t *characters)
 	}
 	stat = exit_check(buffer, *characters);
 	if (stat)
-		exit(EXIT_FAILURE);
+		exit(stat);
+
 	return buffer;
 }
