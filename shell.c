@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	ssize_t write_stat, exec_stat;
+	ssize_t exec_stat;
 	char *buffer = NULL;
 	size_t buf_size = 0;
 	ssize_t characters;

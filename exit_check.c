@@ -16,7 +16,6 @@ int exit_check(char *buffer, ssize_t buf_size)
 	if (stat)
 	{
 		char_left = buf_size - 6;
-		
-	}
+		}
 	return stat;
 }
