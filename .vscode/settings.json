@@ -5,6 +5,7 @@
 		"stdio.h": "c",
 		"shell.h": "c",
 		"stat.h": "c",
-		"wait.h": "c"
+		"wait.h": "c",
+		"errno.h": "c"
 	}
 }

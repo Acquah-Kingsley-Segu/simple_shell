@@ -31,6 +31,7 @@ int main(int argc, char const *argv[], char const *envp[])
 			token = strtok(directories, ":");
 			while (token != NULL && command_not_found)
 			{
+				printf("path; %s\n", token);
 				if ((dp = opendir(token)) == NULL)
 				{
 					write(STDERR_FILENO, "Error: not found\n\0", 18);
@@ -43,7 +44,7 @@ int main(int argc, char const *argv[], char const *envp[])
 					{
 						continue;
 					}
-					else if (strcmp(entry->d_name, command) == 0)
+					if (strcmp(entry->d_name, command) == 0)
 					{
 						printf("Found %s at %s/\n", entry->d_name, token);
 						command_not_found = 0;

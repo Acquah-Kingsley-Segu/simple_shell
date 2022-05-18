@@ -13,12 +13,12 @@ int execute_command(char *cmd, char **av, char **env)
 
 	char *command;
 	command = find_command(cmd, env);
-	printf("COmmand; %s", command);
 	if (command != NULL)
 	{
 		if (execve(command, av, env) == -1)
 		{
 			perror("Error");
+			return (EXIT_FAILURE);
 		}
 		else
 		{
