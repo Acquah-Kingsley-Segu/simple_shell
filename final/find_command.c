@@ -39,6 +39,7 @@ char *find_command(char *cmd, char **envp)
 				strcat(full_command, dir);
 				strcat(full_command, "/\0");
 				strcat(full_command, entry->d_name);
+				strcat(full_command, "\0");
 				break;
 			}
 		}
