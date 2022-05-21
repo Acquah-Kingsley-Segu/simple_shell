@@ -17,5 +17,6 @@ char **str_split(char *str, char const *delim)
 		token = strtok(NULL, delim);
 		i += 1;
 	}
+	str_arr[i] = NULL;
 	return str_arr;
 }

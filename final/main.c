@@ -1,42 +1,51 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <signal.h>
 #include <unistd.h>
 #include "shell.h"
 
 int main(void)
 {
 	extern char **environ;
-	char *line;
-	size_t bufsize = 1024, line_len = 0;
+	char *line = NULL;
 	char *PROMT_STR;
 	ssize_t nread;
 	int PROMPT_LEN;
 	char **ag;
+	char *first_ag;
 	int exit_status;
-	line = (char *)malloc(bufsize * sizeof(char));
 
+	size_t line_len = 0;
 	PROMT_STR = "$ ";
 	PROMPT_LEN = 2;
+	exit_status = 0;
+
 	/* display prompt */
-	while (1)
+	for (;;)
+
 	{
+		/* Handle ^C (Ctrl + C)*/
+		signal(SIGINT, SIG_IGN);
+		/* Prevent zombie children */
+		signal(SIGCHLD, SIG_IGN);
 		write(STDOUT_FILENO, PROMT_STR, PROMPT_LEN);
 		nread = getline(&line, &line_len, stdin);
+
 		if (nread != -1)
 		{
 			line_len = 0;
-			ag = str_split(line, " \t\n\r");
-			if (ag[0] == NULL)
+			ag = str_split(line, " \r\n\a\t");
+			first_ag = ag[0];
+			if (first_ag != NULL)
 			{
-				write(STDOUT_FILENO, "\r", 1);
-				continue;
+				exit_status = execute_command(first_ag, ag, environ);
+				if (exit_status == EXIT_QUIT)
+				{
+					exit(EXIT_SUCCESS);
+				}
 			}
-			exit_status = execute_command(ag[0], ag, environ);
 		}
-		else
-		{
-			break;
-		}
+		free(line);
 	}
 	free(ag);
 	return (exit_status);

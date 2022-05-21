@@ -11,41 +11,47 @@ char *find_command(char *cmd, char **envp)
 	char *full_command;
 	int i, command_not_found;
 	char **dirctories;
-	char *dir;
 	struct stat statbuf;
 	DIR *dp;
 	struct dirent *entry;
 	full_command = malloc(sizeof(char) * 1024);
+
+	if (strcmp(cmd, "exit") == 0)
+	{
+		full_command = cmd;
+		return (full_command);
+	}
+
 	command_not_found = 1;
 	dirctories = find_paths(envp);
 	i = 0;
-	dir = dirctories[i];
-	while (dir != NULL && command_not_found)
+	while (dirctories[i] != NULL && command_not_found)
 	{
-		if ((dp = opendir(dir)) == NULL)
+		if ((dp = opendir(dirctories[i])) == NULL)
 		{
-			write(STDERR_FILENO, "Error: not found\n\0", 18);
+			i += 1;
+			continue;
+			;
 		}
 		while ((entry = readdir(dp)) != NULL)
 		{
 			stat(entry->d_name, &statbuf);
-			if (statbuf.st_mode == S_IFDIR)
+			if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
 			{
 				continue;
 			}
-			else if (strcmp(entry->d_name, cmd) == 0)
+
+			if ((strcmp(entry->d_name, cmd) == 0))
 			{
 				command_not_found = 0;
-				strcat(full_command, dir);
+				strcpy(full_command, dirctories[i]);
 				strcat(full_command, "/\0");
 				strcat(full_command, entry->d_name);
-				strcat(full_command, "\0");
 				break;
 			}
 		}
 		i += 1;
-		dir = dirctories[i];
 		closedir(dp);
 	}
-	return full_command;
+	return (full_command);
 }
