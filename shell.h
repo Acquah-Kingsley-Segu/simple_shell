@@ -1,10 +1,13 @@
 #ifndef SHELL_H
 #define SHELL_H
 #include <stdlib.h>
+#include <stdio.h>
+extern char **environ;
+#define EXIT_QUIT 10
 
-char *shell_prompt(char *, size_t, ssize_t *);
-char **split_str(char *);
-int exit_check(char *, ssize_t);
-void command_exec(char *line, ssize_t nread);
-/* int _getline(char *, int *); */
+int execute_command(char *cmd, char **av, char **env);
+char **str_split(char *str, char const *delim);
+char **find_paths(char *env[]);
+char *find_command(char *cmd, char **envp);
+
 #endif
