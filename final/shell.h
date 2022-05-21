@@ -2,10 +2,9 @@
 #define SHELL_H
 #include <stdlib.h>
 #include <stdio.h>
-
+extern char **environ;
 #define EXIT_QUIT 10
 
-ssize_t shell_prompt(char *line, size_t line_len, FILE *stream);
 int execute_command(char *cmd, char **av, char **env);
 char **str_split(char *str, char const *delim);
 char **find_paths(char *env[]);

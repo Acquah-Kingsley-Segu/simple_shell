@@ -2,12 +2,18 @@
 #include <string.h>
 #include "shell.h"
 
+/**
+ * find_paths - find all directories in the PATH env variable
+ * @env: Environment
+ * Return: array of paths
+ */
 char **find_paths(char *env[])
 {
 	char *token;
 	char env_var[1024 * 1024];
 	char **paths;
 	int i = 0;
+
 	while (env[i] != NULL)
 	{
 		strcpy(env_var, env[i]);
@@ -20,5 +26,5 @@ char **find_paths(char *env[])
 		}
 		i += 1;
 	}
-	return paths;
+	return (paths);
 }

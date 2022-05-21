@@ -6,41 +6,40 @@
 #include <stdlib.h>
 #include "shell.h"
 
+/**
+ * find_command - find a command
+ * @cmd: count of arguments
+ * @envp: string array of environment variables
+ * Return: string representing the full command path
+ * or NULL if it doesn't exits
+ */
 char *find_command(char *cmd, char **envp)
 {
 	char *full_command;
-	int i, command_not_found;
 	char **dirctories;
-	struct stat statbuf;
 	DIR *dp;
 	struct dirent *entry;
-	full_command = malloc(sizeof(char) * 1024);
+	int i = 0, command_not_found = 1;
 
+	full_command = malloc(sizeof(char) * 1024);
 	if (strcmp(cmd, "exit") == 0)
 	{
 		full_command = cmd;
 		return (full_command);
 	}
-
-	command_not_found = 1;
 	dirctories = find_paths(envp);
-	i = 0;
 	while (dirctories[i] != NULL && command_not_found)
 	{
-		if ((dp = opendir(dirctories[i])) == NULL)
+		dp = opendir(dirctories[i]);
+		if (dp == NULL)
 		{
 			i += 1;
 			continue;
-			;
 		}
 		while ((entry = readdir(dp)) != NULL)
 		{
-			stat(entry->d_name, &statbuf);
 			if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-			{
 				continue;
-			}
-
 			if ((strcmp(entry->d_name, cmd) == 0))
 			{
 				command_not_found = 0;

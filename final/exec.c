@@ -6,6 +6,13 @@
 #include <stdio.h>
 #include "shell.h"
 
+/**
+ * execute_command - execute found command
+ * @cmd: command
+ * @av: arguments to command
+ * @env: environment
+ * Return: array of paths
+ */
 int execute_command(char *cmd, char **av, char **env)
 {
 
@@ -14,6 +21,7 @@ int execute_command(char *cmd, char **av, char **env)
 	char *command1;
 	char *command2;
 	char *token;
+
 	token = malloc(sizeof(char) * 1024);
 	token = strtok(cmd, "/");
 	while (token != NULL)
@@ -21,16 +29,11 @@ int execute_command(char *cmd, char **av, char **env)
 		command1 = token;
 		token = strtok(NULL, "/");
 	}
-
 	command2 = find_command(command1, env);
-	printf("commnad |%s|\n", command2);
 	if (command2 != NULL)
 	{
 		if (strcmp(command2, "exit") == 0)
-		{
 			return (EXIT_QUIT);
-		}
-		/* create child process to handle command only if command exits */
 		child_proc = fork();
 		if (child_proc == 0)
 		{
@@ -41,10 +44,7 @@ int execute_command(char *cmd, char **av, char **env)
 			}
 		}
 		else
-		{
-			/* wait for child process to handle command */
 			wait(&wait_status);
-		}
 	}
 	else
 	{
