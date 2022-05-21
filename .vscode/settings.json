@@ -1,12 +1,14 @@
 {
-	"files.associations": {
-		"unistd.h": "c",
-		"stdlib.h": "c",
-		"stdio.h": "c",
-		"shell.h": "c",
-		"stat.h": "c",
-		"wait.h": "c",
-		"errno.h": "c",
-		"types.h": "c"
-	}
+  "files.associations": {
+    "unistd.h": "c",
+    "stdlib.h": "c",
+    "stdio.h": "c",
+    "shell.h": "c",
+    "stat.h": "c",
+    "wait.h": "c",
+    "errno.h": "c",
+    "types.h": "c",
+    "signal.h": "c",
+    "string.h": "c"
+  }
 }
